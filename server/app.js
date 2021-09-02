@@ -4,6 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const usersRoutes = require("./routes/usersRoutes");
+const memoryBooksRoutes = require("./routes/memoryBooksRoutes");
+const memoriesRoutes = require("./routes/memoriesRoutes");
 
 const validation = require("./dataValidation/usersValidation");
 
@@ -18,5 +20,7 @@ app.use(express.json());
 
 // Routes
 app.use("/users", usersRoutes);
+app.use("/memoryBooks", memoryBooksRoutes);
+app.use("/memoryBooks/:memoryBookId/memories", memoriesRoutes);
 
 module.exports = app;
