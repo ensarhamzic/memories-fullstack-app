@@ -1,5 +1,5 @@
 const express = require("express");
-const Router = express.Router();
+const Router = express.Router({ mergeParams: true });
 const checkAuth = require("../middleware/check-auth");
 const memoryBooksController = require("../controllers/memoryBooksController");
 

@@ -74,14 +74,18 @@ const addNewViewer = async (req, res) => {
 const removeViewer = async (req, res) => {
   const { memoryBookId, viewerId } = req.params;
   try {
-    const foundMemoryBook = await MemoryBook.findByIdAndUpdate(
-      memoryBookId,
-      { $pullAll: { viewers: [viewerId] } },
-      { new: true }
-    );
+    const foundMemoryBook = await MemoryBook.findById(memoryBookId);
     if (!foundMemoryBook) {
       throw new Error("Memory book not found");
     }
+    if (foundMemoryBook.owner.toString() !== req.userData.id) {
+      throw new Error("You have no access to this memory book");
+    }
+    foundMemoryBook.viewers = foundMemoryBook.viewers.filter(
+      (viewer) => viewer.toString() !== viewerId.toString()
+    );
+    await foundMemoryBook.save();
+
     res.status(200).json({ success: "Succesfully deleted user from viewers" });
   } catch (e) {
     res.status(400).json({ error: e.message });

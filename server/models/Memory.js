@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const MemorySchema = mongoose.Schema({
+  memoryBook: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "MemoryBook",
+  },
   title: {
     type: String,
     required: true,
