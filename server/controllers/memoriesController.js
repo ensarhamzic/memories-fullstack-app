@@ -65,7 +65,10 @@ const addNewMemory = async (req, res) => {
       memoryBook: foundMemoryBook,
       title,
       description,
-      imageUrl: uploadedImage.path,
+      image: {
+        url: uploadedImage.path,
+        fileName: uploadedImage.filename,
+      },
     });
     foundMemoryBook.memories.push(newMemory);
     await newMemory.save();
@@ -91,6 +94,9 @@ const deleteMemory = async (req, res) => {
     if (!foundMemoryBook.memories.includes(memoryId)) {
       throw new Error("You cannot delete this memory");
     }
+    const foundMemory = await Memory.findById(memoryId);
+    const fileName = foundMemory.image.fileName;
+    await cloudinary.uploader.destroy(fileName);
     await Memory.deleteOne({ _id: memoryId });
     foundMemoryBook.memories = foundMemoryBook.memories.filter(
       (memory) => memory !== memoryId

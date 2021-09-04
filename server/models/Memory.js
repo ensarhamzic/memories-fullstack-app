@@ -14,9 +14,15 @@ const MemorySchema = mongoose.Schema({
     type: String,
     maxLength: 150,
   },
-  imageUrl: {
-    type: String,
-    required: true,
+  image: {
+    url: {
+      type: String,
+      required: true,
+    },
+    fileName: {
+      type: String,
+      required: true,
+    },
   },
 });
 
