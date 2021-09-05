@@ -1,0 +1,47 @@
+.navbar {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(108, 0, 10, 1) 0%,
+    rgba(235, 43, 50, 1) 25%,
+    rgba(202, 25, 26, 1) 51%,
+    rgba(227, 53, 61, 1) 77%,
+    rgba(174, 65, 77, 1) 100%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.logo {
+  font-size: 2rem;
+  color: white;
+}
+
+.linksDiv ul {
+  display: flex;
+  list-style: none;
+}
+
+.linksDiv ul li {
+  margin-right: 20px;
+}
+
+.linksDiv ul li a:link,
+.linksDiv ul li a:visited {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.linksDiv ul li a:hover {
+  border-bottom: 1px solid white;
+}
+
+.activeLink {
+  border-bottom: 1px solid white;
+}

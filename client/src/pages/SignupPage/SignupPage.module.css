@@ -1,0 +1,80 @@
+.container {
+  padding-top: 20px;
+  width: 60%;
+  border: 3px solid rgba(202, 25, 26, 1);
+  border-radius: 5px;
+  margin: 30px auto;
+  color: rgb(133, 23, 23);
+}
+
+.container h3 {
+  text-align: center;
+  font-size: 30px;
+}
+
+.container form div {
+  margin: 15px auto;
+  width: 90%;
+}
+
+.container form input {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  font-size: 15px;
+  padding: 15px 10px;
+  border: 1px solid rgba(202, 25, 26, 1);
+  border-radius: 5px;
+  outline: none;
+  transition: all 200ms linear;
+}
+
+.container form input:focus {
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.container form button {
+  display: block;
+  margin: 10px auto;
+  width: 30%;
+  border: 2px solid rgba(202, 25, 26, 1);
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 10px;
+  color: inherit;
+  transition: all 200ms linear;
+}
+
+.container form button:hover {
+  background: rgba(202, 25, 26, 1);
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  color: white;
+}
+
+.loginLink {
+  text-align: center;
+  margin: 15px 0px;
+}
+.loginLink a {
+  color: black;
+  text-decoration: none;
+}
+.loginLink a span {
+  color: blue;
+}
+.loginLink a:hover span {
+  text-decoration: underline;
+}
+
+.error,
+.signupError {
+  color: red;
+  margin-top: 5px;
+}
+
+.signupError {
+  text-align: center;
+}
