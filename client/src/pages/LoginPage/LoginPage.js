@@ -4,6 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { userActions } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
+import FormCard from "../../components/FormCard/FormCard";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
+import FormError from "../../components/FormError/FormError";
 
 let error = false;
 
@@ -11,7 +15,7 @@ function LoginPage() {
   const [isLoggingin, setIsLoggingin] = useState(false);
   const history = useHistory();
   const dispatchRedux = useDispatch();
-  const [signinError, setSigninError] = useState(false);
+  const [signinError, setSigninError] = useState(null);
   const [emailOrUsernameError, setEmailOrUsernameError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const emailOrUsernameRef = useRef();
@@ -23,7 +27,7 @@ function LoginPage() {
     error = false;
     setEmailOrUsernameError(null);
     setPasswordError(null);
-    setSigninError(false);
+    setSigninError(null);
     const enteredData = {
       emailOrUsername: emailOrUsernameRef.current.value,
       password: passwordRef.current.value,
@@ -50,50 +54,45 @@ function LoginPage() {
       dispatchRedux(userActions.login({ token: response.data.token }));
       history.replace("memory-books");
     } catch (e) {
-      setSigninError(true);
+      setSigninError("Check credentials and try again");
       setIsLoggingin(false);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <h3>Sign in to your account</h3>
-      <form onSubmit={signinHandler}>
-        <div>
-          <label htmlFor="emailOrUsername">Email or username</label>
-          <input
-            ref={emailOrUsernameRef}
-            type="text"
-            placeholder="Email"
-            id="emailOrUsername"
-          />
-          {emailOrUsernameError && (
-            <p className={styles.error}>{emailOrUsernameError}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            ref={passwordRef}
-            type="password"
-            placeholder="Password"
-            id="password"
-          />
-          {passwordError && <p className={styles.error}>{passwordError}</p>}
-        </div>
-        {signinError && (
-          <p className={styles.signinError}>Check credentials and try again</p>
-        )}
-        <button type="submit" disabled={isLoggingin}>
+    <>
+      <FormCard
+        title="Sign in to your account"
+        onSubmit={signinHandler}
+        error={signinError}
+      >
+        <Input
+          id="emailOrUsername"
+          title="Email or username"
+          type="text"
+          placeholder="Email or username"
+          ref={emailOrUsernameRef}
+          error={emailOrUsernameError}
+        />
+        <Input
+          id="password"
+          title="Password"
+          type="password"
+          placeholder="Password"
+          ref={passwordRef}
+          error={passwordError}
+        />
+        <FormError error={signinError} />
+        <Button type="submit" disabled={isLoggingin}>
           {isLoggingin ? "Waiting..." : "Sign in"}
-        </button>
-      </form>
-      <p className={styles.signupLink}>
-        <Link to="/signup">
-          Don't have account? <span>Sign up</span>
-        </Link>
-      </p>
-    </div>
+        </Button>
+        <p className={styles.signupLink}>
+          <Link to="/signup">
+            Don't have account? <span>Sign up</span>
+          </Link>
+        </p>
+      </FormCard>
+    </>
   );
 }
 

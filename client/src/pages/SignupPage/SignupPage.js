@@ -4,6 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/userSlice";
+import FormCard from "../../components/FormCard/FormCard";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
+import FormError from "../../components/FormError/FormError";
 
 const initialInputErrorsState = {
   fullNameError: null,
@@ -220,63 +224,51 @@ function SignupPage() {
   };
 
   return (
-    <div className={styles.container}>
-      <h3>Make new account</h3>
-      <form onSubmit={signupHandler}>
-        <div>
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            ref={fullNameRef}
-            type="text"
-            placeholder="Full Name"
-            id="fullName"
-          />
-          {inputErrors.fullNameError && (
-            <p className={styles.error}>{inputErrors.fullNameError}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input ref={emailRef} type="text" placeholder="Email" id="email" />
-          {inputErrors.emailError && (
-            <p className={styles.error}>{inputErrors.emailError}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            ref={usernameRef}
-            type="text"
-            placeholder="Username"
-            id="username"
-          />
-          {inputErrors.usernameError && (
-            <p className={styles.error}>{inputErrors.usernameError}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            ref={passwordRef}
-            type="password"
-            placeholder="Password"
-            id="password"
-          />
-          {inputErrors.passwordError && (
-            <p className={styles.error}>{inputErrors.passwordError}</p>
-          )}
-        </div>
-        {signupError && <p className={styles.signupError}>{signupError}</p>}
-        <button type="submit" disabled={isSigningUp}>
+    <>
+      <FormCard title="Make new account" onSubmit={signupHandler}>
+        <Input
+          id="fullName"
+          title="Full name"
+          type="text"
+          placeholder="Full name"
+          ref={fullNameRef}
+          error={inputErrors.fullNameError}
+        />
+        <Input
+          id="email"
+          title="Email"
+          type="text"
+          placeholder="Email"
+          ref={emailRef}
+          error={inputErrors.emailError}
+        />
+        <Input
+          id="username"
+          title="Username"
+          type="text"
+          placeholder="Username"
+          ref={usernameRef}
+          error={inputErrors.usernameError}
+        />
+        <Input
+          id="password"
+          title="password"
+          type="password"
+          placeholder="Password"
+          ref={passwordRef}
+          error={inputErrors.passwordError}
+        />
+        <FormError error={signupError} />
+        <Button type="submit" disabled={isSigningUp}>
           {isSigningUp ? "Waiting..." : "Create Account"}
-        </button>
-      </form>
+        </Button>
+      </FormCard>
       <p className={styles.loginLink}>
         <Link to="/login">
           Already have an account? <span>Login</span>
         </Link>
       </p>
-    </div>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import MemoryBooks from "./pages/MemoryBooksPage/MemoryBooksPage";
+import MemoryBooksPage from "./pages/MemoryBooksPage/MemoryBooksPage";
 import { useSelector } from "react-redux";
 import { verifyTokenOnRefresh } from "./store/userAsyncActions";
 import { useDispatch } from "react-redux";
@@ -23,16 +23,16 @@ function App() {
       <NavBar isAuth={isAuth} />
       <Switch>
         <Route path="/" exact>
-          {isAuth ? <MemoryBooks /> : <Redirect to="/login" />}
+          {isAuth ? <MemoryBooksPage /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/signup">
+        <Route path="/signup" exact>
           {!isAuth ? <SignupPage /> : <Redirect to="/memory-books" />}
         </Route>
-        <Route path="/login">
+        <Route path="/login" exact>
           {!isAuth ? <LoginPage /> : <Redirect to="/memory-books" />}
         </Route>
         <Route path="/memory-books">
-          {isAuth ? <MemoryBooks /> : <Redirect to="/login" />}
+          {isAuth ? <MemoryBooksPage /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </div>
