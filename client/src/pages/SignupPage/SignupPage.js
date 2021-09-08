@@ -1,7 +1,9 @@
 import React, { useReducer, useRef, useState } from "react";
 import styles from "./SignupPage.module.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/userSlice";
 
 const initialInputErrorsState = {
   fullNameError: null,
@@ -76,6 +78,9 @@ const inputErrorsReducer = (state, action) => {
 let error = false;
 
 function SignupPage() {
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const history = useHistory();
+  const dispatchRedux = useDispatch();
   const [inputErrors, dispatchInputErrors] = useReducer(
     inputErrorsReducer,
     initialInputErrorsState
@@ -88,6 +93,7 @@ function SignupPage() {
 
   const signupHandler = async (e) => {
     e.preventDefault();
+    setIsSigningUp(true);
     setSignupError(null);
     error = false;
     const enteredData = {
@@ -195,6 +201,7 @@ function SignupPage() {
     }
 
     if (error) {
+      setIsSigningUp(false);
       return;
     }
     try {
@@ -204,9 +211,11 @@ function SignupPage() {
         username: enteredData.username,
         password: enteredData.password,
       });
-      console.log(response);
+      dispatchRedux(userActions.login({ token: response.data.token }));
+      history.replace("memory-books");
     } catch (e) {
       setSignupError(e.response.data.error);
+      setIsSigningUp(false);
     }
   };
 
@@ -258,7 +267,9 @@ function SignupPage() {
           )}
         </div>
         {signupError && <p className={styles.signupError}>{signupError}</p>}
-        <button type="submit">Create Account</button>
+        <button type="submit" disabled={isSigningUp}>
+          {isSigningUp ? "Waiting..." : "Create Account"}
+        </button>
       </form>
       <p className={styles.loginLink}>
         <Link to="/login">

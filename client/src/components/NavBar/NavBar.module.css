@@ -42,6 +42,21 @@
   border-bottom: 1px solid white;
 }
 
+.linksDiv ul li button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.linksDiv ul li button:hover {
+  border-bottom: 1px solid white;
+}
+
 .activeLink {
   border-bottom: 1px solid white;
 }

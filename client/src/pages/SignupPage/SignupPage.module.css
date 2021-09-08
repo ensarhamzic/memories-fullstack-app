@@ -54,6 +54,11 @@
   color: white;
 }
 
+.container form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .loginLink {
   text-align: center;
   margin: 15px 0px;

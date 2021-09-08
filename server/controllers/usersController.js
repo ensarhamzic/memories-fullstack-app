@@ -75,7 +75,12 @@ const signIn = async (req, res) => {
   }
 };
 
+const verify = (req, res) => {
+  res.status(200).json({ success: "User is verified" });
+};
+
 module.exports = {
   signUp,
   signIn,
+  verify,
 };
