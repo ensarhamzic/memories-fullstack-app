@@ -1,0 +1,13 @@
+.container {
+  padding-top: 20px;
+  width: 60%;
+  border: 3px solid rgba(202, 25, 26, 1);
+  border-radius: 5px;
+  margin: 30px auto;
+  color: rgb(133, 23, 23);
+}
+
+.container h3 {
+  text-align: center;
+  font-size: 30px;
+}

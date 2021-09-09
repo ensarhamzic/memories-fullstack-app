@@ -1,0 +1,24 @@
+.button {
+  display: block;
+  margin: 10px auto;
+  width: 30%;
+  border: 2px solid rgba(202, 25, 26, 1);
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 10px;
+  color: inherit;
+  transition: all 200ms linear;
+}
+
+.button:hover {
+  background: rgba(202, 25, 26, 1);
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  color: white;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

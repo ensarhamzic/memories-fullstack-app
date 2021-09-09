@@ -1,0 +1,26 @@
+.inputDiv {
+  margin: 15px auto;
+  width: 90%;
+}
+
+.inputDiv input {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  font-size: 15px;
+  padding: 15px 10px;
+  border: 1px solid rgba(202, 25, 26, 1);
+  border-radius: 5px;
+  outline: none;
+  transition: all 200ms linear;
+}
+
+.inputDiv input:focus {
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.error {
+  color: red;
+  margin-top: 5px;
+}
