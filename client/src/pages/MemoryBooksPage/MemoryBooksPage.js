@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MemoryBooksPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, useRouteMatch } from "react-router";
+import { Route, useHistory } from "react-router";
 import NewMemoryBook from "../../components/NewMemoryBook/NewMemoryBook";
 import { Link } from "react-router-dom";
 import { fetchMemoryBooks } from "../../store/memoryBooksAsyncActions";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 
 function MemoryBooksPage() {
+  const history = useHistory();
   const dispatchRedux = useDispatch();
-  const { path, url } = useRouteMatch();
+  const [formVisible, setFormVisible] = useState(false);
   const [loadingMemoryBooksError, setLoadingMemoryBooksError] = useState(null);
   const token = useSelector((state) => state.user.token);
   const memoryBooks = useSelector((state) => state.memoryBooks.myMemoryBooks);
@@ -28,17 +30,35 @@ function MemoryBooksPage() {
     };
     getMemoryBooks();
   }, [dispatchRedux, token]);
+
+  let buttonText = null;
+  if (formVisible) {
+    buttonText = `Close Form`;
+  } else {
+    buttonText = ["Create New Memory Book", <AddBoxIcon />];
+  }
+
+  const formToggler = () => {
+    if (history.location.pathname === "/memory-books") {
+      history.replace("/memory-books/new");
+    } else {
+      history.replace("/memory-books");
+    }
+    setFormVisible((prev) => !prev);
+  };
+
   return (
     <div>
       {loadingMemoryBooksError && (
         <p className={styles.error}>{loadingMemoryBooksError}</p>
       )}
-      <Link className={styles.NewMemoryBookLink} to={`${url}/new`}>
-        Create New Memory Book
-      </Link>
-      <Route exact path={`${path}/new`}>
+      <Route exact path={`/memory-books/new`}>
         <NewMemoryBook />
       </Route>
+
+      <button className={styles.formToggleButton} onClick={formToggler}>
+        {buttonText}
+      </button>
 
       {memoryBooks &&
         memoryBooks.map((memBook) => (

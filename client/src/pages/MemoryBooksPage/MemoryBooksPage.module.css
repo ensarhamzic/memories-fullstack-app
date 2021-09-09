@@ -3,3 +3,23 @@
   color: red;
   font-weight: bold;
 }
+
+.formToggleButton {
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  color: black;
+  font-size: 1.2rem !important;
+  text-decoration: none;
+}
+
+.formToggleButton:hover {
+  text-decoration: underline;
+}
+
+.formToggleButton svg {
+  font-size: 1.5rem !important;
+  vertical-align: bottom;
+}

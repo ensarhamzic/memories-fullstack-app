@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/userSlice";
+import { memoryBooksActions } from "../../store/memoryBooksSlice";
 
 function NavBar({ isAuth }) {
   const dispatchRedux = useDispatch();
   const logoutHandler = () => {
     dispatchRedux(userActions.logout());
+    dispatchRedux(memoryBooksActions.clear());
   };
   return (
     <div className={styles.navbar}>

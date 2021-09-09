@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  myMemoryBooks: [],
+  sharedMemoryBooks: [],
+};
+
 const memoryBooksSlice = createSlice({
   name: "memoryBooks",
-  initialState: {
-    myMemoryBooks: [],
-    sharedMemoryBooks: [],
-  },
+  initialState,
   reducers: {
     addNewMemoryBook(state, action) {
       const newMemoryBook = {
@@ -26,6 +28,10 @@ const memoryBooksSlice = createSlice({
           viewers: mb.viewers,
         });
       }
+    },
+    clear(state, action) {
+      state.myMemoryBooks = [];
+      state.sharedMemoryBooks = [];
     },
   },
 });
