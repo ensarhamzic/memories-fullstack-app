@@ -33,8 +33,8 @@ const newMemoryBook = async (req, res) => {
     });
     foundUser.memoryBooks.push(newMemoryBook);
     await foundUser.save();
-    await newMemoryBook.save();
-    res.status(200).json({ success: "Saved" });
+    const newMB = await newMemoryBook.save();
+    res.status(200).json({ success: "Saved", data: newMB });
   } catch (e) {
     res.status(400).json({ error: "Something went wrong" });
   }

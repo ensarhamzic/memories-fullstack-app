@@ -3,9 +3,15 @@ import Button from "../Button/Button";
 import FormCard from "../FormCard/FormCard";
 import FormError from "../FormError/FormError";
 import Input from "../Input/Input";
-import styles from "./NewMemoryBook.module.css";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addNewMemoryBook } from "../../store/memoryBooksAsyncActions";
+
+let error = false;
 
 function NewMemoryBook() {
+  const dispatchRedux = useDispatch();
+  const token = useSelector((state) => state.user.token);
   const [isCreating, setIsCreating] = useState(false);
   const [titleError, setTitleError] = useState(null);
   const [newMemoryBookError, setNewMemoryBookError] = useState(null);
@@ -13,6 +19,8 @@ function NewMemoryBook() {
   const locationRef = useRef();
   const newMemoryBookHandler = async (e) => {
     e.preventDefault();
+    error = false;
+    setNewMemoryBookError(null);
     setTitleError(null);
     setIsCreating(true);
     const enteredData = {
@@ -21,8 +29,24 @@ function NewMemoryBook() {
     };
     if (!enteredData.title) {
       setTitleError("Cannot be empty");
+      error = true;
     }
-    // TODO: Add New Memory Book
+    if (error) {
+      setIsCreating(false);
+      return;
+    }
+    try {
+      const response = await dispatchRedux(
+        addNewMemoryBook(enteredData, token)
+      );
+      if (response.error) {
+        throw new Error();
+      }
+    } catch (e) {
+      setNewMemoryBookError(
+        "There was error trying to create new memory book. Try again."
+      );
+    }
     setIsCreating(false);
   };
   return (

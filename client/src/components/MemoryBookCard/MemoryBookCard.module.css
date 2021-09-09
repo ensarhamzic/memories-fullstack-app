@@ -1,0 +1,18 @@
+.card {
+  border: 1px solid rgba(202, 25, 26, 1);
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.left p {
+  color: rgb(75, 67, 67);
+}
+
+.right p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
