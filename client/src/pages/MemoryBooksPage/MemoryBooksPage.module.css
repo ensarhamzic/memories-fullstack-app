@@ -7,6 +7,7 @@
 .formToggleButton {
   outline: none;
   border: none;
+  background: none;
   display: flex;
   justify-content: center;
   margin: 20px auto;
@@ -22,4 +23,8 @@
 .formToggleButton svg {
   font-size: 1.5rem !important;
   vertical-align: bottom;
+}
+
+.loading {
+  text-align: center;
 }

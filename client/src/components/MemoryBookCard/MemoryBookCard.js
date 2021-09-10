@@ -2,9 +2,12 @@ import React from "react";
 import styles from "./MemoryBookCard.module.css";
 import GroupIcon from "@material-ui/icons/Group";
 
-function MemoryBookCard({ title, location, viewers }) {
+function MemoryBookCard({ title, location, viewers, onMemoryBookClick }) {
+  const clickHandler = () => {
+    onMemoryBookClick();
+  };
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={clickHandler}>
       <div className={styles.left}>
         <h2>{title}</h2>
         <p>{location}</p>

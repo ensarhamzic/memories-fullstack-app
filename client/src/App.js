@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MemoryBooksPage from "./pages/MemoryBooksPage/MemoryBooksPage";
+import MemoriesPage from "./pages/MemoriesPage/MemoriesPage";
 import { useSelector } from "react-redux";
 import { verifyTokenOnRefresh } from "./store/userAsyncActions";
 import { useDispatch } from "react-redux";
@@ -30,6 +31,9 @@ function App() {
         </Route>
         <Route path="/login" exact>
           {!isAuth ? <LoginPage /> : <Redirect to="/memory-books" />}
+        </Route>
+        <Route exact path="/memory-books/:memoryBookId/memories">
+          {isAuth ? <MemoriesPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/memory-books">
           {isAuth ? <MemoryBooksPage /> : <Redirect to="/login" />}

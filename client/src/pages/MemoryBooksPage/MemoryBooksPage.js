@@ -1,41 +1,47 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MemoryBooksPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, useHistory } from "react-router";
+import { Route, Switch, useHistory } from "react-router";
 import NewMemoryBook from "../../components/NewMemoryBook/NewMemoryBook";
-import { Link } from "react-router-dom";
 import { fetchMemoryBooks } from "../../store/memoryBooksAsyncActions";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
-import AddBoxIcon from "@material-ui/icons/AddBox";
+
+let isInitial = true;
 
 function MemoryBooksPage() {
   const history = useHistory();
   const dispatchRedux = useDispatch();
   const [formVisible, setFormVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadingMemoryBooksError, setLoadingMemoryBooksError] = useState(null);
   const token = useSelector((state) => state.user.token);
   const memoryBooks = useSelector((state) => state.memoryBooks.myMemoryBooks);
   useEffect(() => {
-    const getMemoryBooks = async () => {
-      try {
-        const response = await dispatchRedux(fetchMemoryBooks(token));
-        if (response.error) {
-          throw new Error(
-            "Error happened while trying to get your memory books"
-          );
+    if (isInitial) {
+      setIsLoading(true);
+      const getMemoryBooks = async () => {
+        try {
+          const response = await dispatchRedux(fetchMemoryBooks(token));
+          if (response.error) {
+            throw new Error(
+              "Error happened while trying to get your memory books"
+            );
+          }
+        } catch (e) {
+          setLoadingMemoryBooksError(e.message);
         }
-      } catch (e) {
-        setLoadingMemoryBooksError(e.message);
-      }
-    };
-    getMemoryBooks();
+        setIsLoading(false);
+      };
+      getMemoryBooks();
+      isInitial = false;
+    }
   }, [dispatchRedux, token]);
 
   let buttonText = null;
   if (formVisible) {
     buttonText = `Close Form`;
   } else {
-    buttonText = ["Create New Memory Book", <AddBoxIcon />];
+    buttonText = "Create New Memory Book";
   }
 
   const formToggler = () => {
@@ -47,22 +53,31 @@ function MemoryBooksPage() {
     setFormVisible((prev) => !prev);
   };
 
+  const memoryBookClickHandler = (id) => (e) => {
+    history.push(`/memory-books/${id}/memories`);
+  };
+
   return (
     <div>
       {loadingMemoryBooksError && (
         <p className={styles.error}>{loadingMemoryBooksError}</p>
       )}
-      <Route exact path={`/memory-books/new`}>
-        <NewMemoryBook />
-      </Route>
+      <Switch>
+        <Route path={`/memory-books/new`}>
+          <NewMemoryBook />
+        </Route>
+      </Switch>
 
       <button className={styles.formToggleButton} onClick={formToggler}>
         {buttonText}
       </button>
 
+      {isLoading && <p className={styles.loading}>Loading...</p>}
+
       {memoryBooks &&
         memoryBooks.map((memBook) => (
           <MemoryBookCard
+            onMemoryBookClick={memoryBookClickHandler(memBook.id)}
             key={memBook.id}
             title={memBook.title}
             location={memBook.location}
