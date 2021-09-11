@@ -32,7 +32,7 @@ function App() {
         <Route path="/login" exact>
           {!isAuth ? <LoginPage /> : <Redirect to="/memory-books" />}
         </Route>
-        <Route exact path="/memory-books/:memoryBookId/memories">
+        <Route path="/memory-books/:memoryBookId/memories">
           {isAuth ? <MemoriesPage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/memory-books">

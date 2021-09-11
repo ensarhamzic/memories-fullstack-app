@@ -5,6 +5,7 @@ import { Route, Switch, useHistory } from "react-router";
 import NewMemoryBook from "../../components/NewMemoryBook/NewMemoryBook";
 import { fetchMemoryBooks } from "../../store/memoryBooksAsyncActions";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
+import FormTogglerButton from "../../components/FormTogglerButton/FormTogglerButton";
 
 let isInitial = true;
 
@@ -37,13 +38,6 @@ function MemoryBooksPage() {
     }
   }, [dispatchRedux, token]);
 
-  let buttonText = null;
-  if (formVisible) {
-    buttonText = `Close Form`;
-  } else {
-    buttonText = "Create New Memory Book";
-  }
-
   const formToggler = () => {
     if (history.location.pathname === "/memory-books") {
       history.replace("/memory-books/new");
@@ -68,9 +62,12 @@ function MemoryBooksPage() {
         </Route>
       </Switch>
 
-      <button className={styles.formToggleButton} onClick={formToggler}>
-        {buttonText}
-      </button>
+      <FormTogglerButton
+        onClick={formToggler}
+        closedText="Create New Memory Book"
+        openedText="Close Form"
+        formIsVisible={formVisible}
+      />
 
       {isLoading && <p className={styles.loading}>Loading...</p>}
 
