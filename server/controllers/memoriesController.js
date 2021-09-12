@@ -73,9 +73,17 @@ const addNewMemory = async (req, res) => {
     foundMemoryBook.memories.push(newMemory);
     await newMemory.save();
     await foundMemoryBook.save();
-    res
-      .status(200)
-      .json({ success: "Successfully added new memory to memory book" });
+    res.status(200).json({
+      memory: {
+        _id: newMemory._id,
+        title: newMemory.title,
+        description: newMemory.description,
+        image: {
+          url: newMemory.image.url,
+          fileName: newMemory.image.fileName,
+        },
+      },
+    });
   } catch (e) {
     res.status(400).json({ error: e.message });
   }

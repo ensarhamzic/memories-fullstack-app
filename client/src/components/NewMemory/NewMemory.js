@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-function NewMemory() {
+function NewMemory({ onSave }) {
   const token = useSelector((state) => state.user.token);
   const { memoryBookId } = useParams();
   const titleRef = useRef();
@@ -33,7 +33,6 @@ function NewMemory() {
       title: titleRef.current.value,
       description: descriptionRef.current.value,
     };
-    console.log(enteredData.memoryImage.type);
     if (!enteredData.title) {
       setTitleError("Title is required");
       error = true;
@@ -43,6 +42,9 @@ function NewMemory() {
       error = true;
     } else if (enteredData.memoryImage.type !== "image/jpeg") {
       setImageError("Must be jpg format");
+      error = true;
+    } else if (enteredData.memoryImage.size > 3000000) {
+      setImageError("Must be less than 3mb size");
       error = true;
     }
 
@@ -64,7 +66,7 @@ function NewMemory() {
           },
         }
       );
-      console.log(response.data);
+      onSave(response.data.memory);
     } catch (e) {
       setNewMemoryError("Error while creating new memory");
     }
