@@ -33,6 +33,17 @@ const memoryBooksSlice = createSlice({
       state.myMemoryBooks = [];
       state.sharedMemoryBooks = [];
     },
+    addViewer(state, action) {
+      const { memoryBookId } = action.payload;
+      state.myMemoryBooks
+        .find((mb) => mb.id === memoryBookId)
+        .viewers.push({
+          _id: action.payload._id,
+          fullName: action.payload.fullName,
+          email: action.payload.email,
+          username: action.payload.username,
+        });
+    },
   },
 });
 

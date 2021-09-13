@@ -6,14 +6,21 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import FormTogglerButton from "../../components/FormTogglerButton/FormTogglerButton";
 import Memories from "../../components/Memories/Memories";
+import MemoriesSidebar from "../../components/MemoriesSidebar/MemoriesSidebar";
 
 function MemoriesPage() {
+  const { memoryBookId } = useParams();
+  const viewers = useSelector(
+    (state) =>
+      state.memoryBooks.myMemoryBooks.filter((mb) => mb.id === memoryBookId)[0]
+        .viewers
+  );
   const token = useSelector((state) => state.user.token);
   const [memories, setMemories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [memoriesError, setMemoriesError] = useState(null);
   const history = useHistory();
-  const { memoryBookId } = useParams();
+
   const [formVisible, setFormVisible] = useState(false);
 
   useEffect(() => {
@@ -29,7 +36,6 @@ function MemoriesPage() {
           }
         );
         setMemories(response.data.memories);
-        console.log(response.data.memories);
       } catch (e) {
         setMemoriesError("Error while trying to get memories");
       }
@@ -72,7 +78,14 @@ function MemoriesPage() {
       />
       {memoriesError && <p className={styles.error}>{memoriesError}</p>}
       {isLoading && <p className={styles.loading}>Loading...</p>}
-      {memories && <Memories memories={memories} />}
+      <div className={styles.container}>
+        <div className={styles.content}>
+          {memories && <Memories memories={memories} />}
+        </div>
+        <div className={styles.sidebar}>
+          <MemoriesSidebar viewers={viewers} memoryBookId={memoryBookId} />
+        </div>
+      </div>
     </>
   );
 }

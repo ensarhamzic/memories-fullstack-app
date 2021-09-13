@@ -7,7 +7,13 @@ const getMemoryBooks = async (req, res) => {
   try {
     const foundUser = await User.findOne({
       username: userData.username,
-    }).populate("memoryBooks");
+    }).populate({
+      path: "memoryBooks",
+      populate: {
+        path: "viewers",
+        select: "email username fullName",
+      },
+    });
     const memoryBooks = foundUser.memoryBooks;
     res.status(200).json({ memoryBooks });
   } catch (e) {
@@ -65,7 +71,16 @@ const addNewViewer = async (req, res) => {
     }
     foundMemoryBook.viewers.push(foundUser);
     await foundMemoryBook.save();
-    res.status(200).json({ success: "Successfully added user to viewers" });
+    res
+      .status(200)
+      .json({
+        user: {
+          _id: foundUser._id,
+          fullName: foundUser.fullName,
+          email: foundUser.email,
+          username: foundUser.username,
+        },
+      });
   } catch (e) {
     res.status(400).json({ error: e.message });
   }

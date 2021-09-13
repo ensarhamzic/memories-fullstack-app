@@ -49,7 +49,9 @@ const getMemories = async (req, res) => {
     ) {
       throw new Error("You don't have access to this memory book");
     }
-    res.status(200).json({ memories: foundMemoryBook.memories });
+    res.status(200).json({
+      memories: foundMemoryBook.memories,
+    });
   } catch (e) {
     res.status(400).json({ error: e.message });
   }

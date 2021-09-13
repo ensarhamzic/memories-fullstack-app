@@ -36,7 +36,7 @@ function MemoryBooksPage() {
       getMemoryBooks();
       isInitial = false;
     }
-  }, [dispatchRedux, token]);
+  }, [token, dispatchRedux]);
 
   const formToggler = () => {
     if (history.location.pathname === "/memory-books") {

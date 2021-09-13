@@ -5,3 +5,9 @@
   text-align: center;
   color: red;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 1100px 300px;
+  gap: 10px;
+}
