@@ -31,6 +31,12 @@ const userSchema = mongoose.Schema({
       ref: "MemoryBook",
     },
   ],
+  sharedMemoryBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MemoryBook",
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

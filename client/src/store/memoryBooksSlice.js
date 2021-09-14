@@ -29,6 +29,16 @@ const memoryBooksSlice = createSlice({
         });
       }
     },
+    fetchSharedMemoryBooks(state, action) {
+      const memoryBooks = action.payload.memoryBooks;
+      for (const mb of memoryBooks) {
+        state.sharedMemoryBooks.push({
+          id: mb._id,
+          title: mb.title,
+          location: mb.location,
+        });
+      }
+    },
     clear(state, action) {
       state.myMemoryBooks = [];
       state.sharedMemoryBooks = [];

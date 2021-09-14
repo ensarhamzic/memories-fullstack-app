@@ -21,6 +21,19 @@ const getMemoryBooks = async (req, res) => {
   }
 };
 
+const getSharedMemoryBooks = async (req, res) => {
+  const { userData } = req;
+  try {
+    const foundUser = await User.findOne({
+      username: userData.username,
+    }).populate("sharedMemoryBooks");
+    const sharedMemoryBooks = foundUser.sharedMemoryBooks;
+    res.status(200).json({ sharedMemoryBooks });
+  } catch (e) {
+    res.status(400).json({ error: "Error happened. Try again" });
+  }
+};
+
 const newMemoryBook = async (req, res) => {
   const { userData } = req;
   const { error, value } = memoryBooksJoiSchema.validate({
@@ -70,17 +83,17 @@ const addNewViewer = async (req, res) => {
       throw new Error("This user is already added to viewers");
     }
     foundMemoryBook.viewers.push(foundUser);
+    foundUser.sharedMemoryBooks.push(foundMemoryBook);
+    await foundUser.save();
     await foundMemoryBook.save();
-    res
-      .status(200)
-      .json({
-        user: {
-          _id: foundUser._id,
-          fullName: foundUser.fullName,
-          email: foundUser.email,
-          username: foundUser.username,
-        },
-      });
+    res.status(200).json({
+      user: {
+        _id: foundUser._id,
+        fullName: foundUser.fullName,
+        email: foundUser.email,
+        username: foundUser.username,
+      },
+    });
   } catch (e) {
     res.status(400).json({ error: e.message });
   }
@@ -112,4 +125,5 @@ module.exports = {
   getMemoryBooks,
   addNewViewer,
   removeViewer,
+  getSharedMemoryBooks,
 };

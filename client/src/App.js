@@ -8,6 +8,7 @@ import MemoriesPage from "./pages/MemoriesPage/MemoriesPage";
 import { useSelector } from "react-redux";
 import { verifyTokenOnRefresh } from "./store/userAsyncActions";
 import { useDispatch } from "react-redux";
+import SharedMemoryBooksPage from "./pages/SharedMemoryBooksPage/SharedMemoryBooksPage";
 
 function App() {
   const dispatchRedux = useDispatch();
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route path="/memory-books">
           {isAuth ? <MemoryBooksPage /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/shared-memory-books">
+          {isAuth ? <SharedMemoryBooksPage /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </div>

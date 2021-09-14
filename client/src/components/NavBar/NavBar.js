@@ -40,6 +40,16 @@ function NavBar({ isAuth }) {
           )}
           {isAuth && (
             <li>
+              <NavLink
+                activeClassName={styles.activeLink}
+                to="/shared-memory-books"
+              >
+                Shared Memory Books
+              </NavLink>
+            </li>
+          )}
+          {isAuth && (
+            <li>
               <button onClick={logoutHandler} type="button">
                 Logout
               </button>
