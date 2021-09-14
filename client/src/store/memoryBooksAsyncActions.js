@@ -51,3 +51,23 @@ export const fetchMemoryBooks = (token) => {
     }
   };
 };
+
+export const fetchSharedMemoryBooks = (token) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/memoryBooks/shared", {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch(
+        memoryBooksActions.fetchSharedMemoryBooks({
+          sharedMemoryBooks: response.data.sharedMemoryBooks,
+        })
+      );
+      return { success: true };
+    } catch (e) {
+      return { error: true };
+    }
+  };
+};

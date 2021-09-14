@@ -30,12 +30,14 @@ const memoryBooksSlice = createSlice({
       }
     },
     fetchSharedMemoryBooks(state, action) {
-      const memoryBooks = action.payload.memoryBooks;
-      for (const mb of memoryBooks) {
+      const sharedMemoryBooks = action.payload.sharedMemoryBooks;
+      console.log(sharedMemoryBooks);
+      for (const smb of sharedMemoryBooks) {
         state.sharedMemoryBooks.push({
-          id: mb._id,
-          title: mb.title,
-          location: mb.location,
+          id: smb._id,
+          title: smb.title,
+          location: smb.location,
+          memories: smb.memories.length,
         });
       }
     },

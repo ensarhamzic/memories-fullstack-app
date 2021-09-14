@@ -6,6 +6,7 @@ import NewMemoryBook from "../../components/NewMemoryBook/NewMemoryBook";
 import { fetchMemoryBooks } from "../../store/memoryBooksAsyncActions";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
 import FormTogglerButton from "../../components/FormTogglerButton/FormTogglerButton";
+import GroupIcon from "@material-ui/icons/Group";
 
 let isInitial = true;
 
@@ -78,7 +79,8 @@ function MemoryBooksPage() {
             key={memBook.id}
             title={memBook.title}
             location={memBook.location}
-            viewers={memBook.viewers.length}
+            counter={memBook.viewers.length}
+            Icon={GroupIcon}
           />
         ))}
     </div>

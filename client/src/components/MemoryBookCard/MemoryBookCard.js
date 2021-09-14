@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./MemoryBookCard.module.css";
-import GroupIcon from "@material-ui/icons/Group";
 
-function MemoryBookCard({ title, location, viewers, onMemoryBookClick }) {
+function MemoryBookCard({ title, location, counter, onMemoryBookClick, Icon }) {
   const clickHandler = () => {
     onMemoryBookClick();
   };
@@ -14,7 +13,7 @@ function MemoryBookCard({ title, location, viewers, onMemoryBookClick }) {
       </div>
       <div className={styles.right}>
         <p>
-          <GroupIcon /> {viewers}
+          <Icon /> {counter}
         </p>
       </div>
     </div>
