@@ -40,8 +40,7 @@ function SharedMemoryBooksPage() {
   }, [token, dispatchRedux]);
 
   const sharedMemoryBookClickHandler = (id) => (e) => {
-    // history.push(`/memory-books/${id}/memories`);
-    console.log(id);
+    history.push(`/shared-memory-books/${id}/memories`);
   };
 
   return (

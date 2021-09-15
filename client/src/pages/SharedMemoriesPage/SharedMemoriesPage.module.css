@@ -1,0 +1,13 @@
+.loading {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.error {
+  text-align: center;
+  color: red;
+}
+
+.memoriesDiv div {
+  justify-content: center;
+}
