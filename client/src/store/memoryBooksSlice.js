@@ -31,7 +31,6 @@ const memoryBooksSlice = createSlice({
     },
     fetchSharedMemoryBooks(state, action) {
       const sharedMemoryBooks = action.payload.sharedMemoryBooks;
-      console.log(sharedMemoryBooks);
       for (const smb of sharedMemoryBooks) {
         state.sharedMemoryBooks.push({
           id: smb._id,
@@ -55,6 +54,13 @@ const memoryBooksSlice = createSlice({
           email: action.payload.email,
           username: action.payload.username,
         });
+    },
+    removeViewer(state, action) {
+      const { memoryBookId, viewerId } = action.payload;
+      state.myMemoryBooks.find((mb) => mb.id === memoryBookId).viewers =
+        state.myMemoryBooks
+          .find((mb) => mb.id === memoryBookId)
+          .viewers.filter((v) => v._id !== viewerId);
     },
   },
 });

@@ -71,3 +71,45 @@ export const fetchSharedMemoryBooks = (token) => {
     }
   };
 };
+
+export const addViewerToMemoryBook = (token, memoryBookId, emailOrUsername) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(
+        `/memoryBooks/${memoryBookId}/viewers`,
+        {
+          emailOrUsername,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+
+      const newViewer = {
+        _id: response.data.user._id,
+        fullName: response.data.user.fullName,
+        email: response.data.user.email,
+        username: response.data.user.username,
+      };
+      dispatch(memoryBooksActions.addViewer({ ...newViewer, memoryBookId }));
+      return { success: true };
+    } catch (e) {
+      return { error: e.response.data.error };
+    }
+  };
+};
+
+export const removeViewerFromMemoryBook = (token, memoryBookId, viewerId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/memoryBooks/${memoryBookId}/viewers/${viewerId}`, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch(memoryBooksActions.removeViewer({ memoryBookId, viewerId }));
+    } catch (e) {}
+  };
+};

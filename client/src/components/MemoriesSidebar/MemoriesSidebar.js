@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
 import styles from "./MemoriesSidebar.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { memoryBooksActions } from "../../store/memoryBooksSlice";
-import axios from "axios";
+import {
+  addViewerToMemoryBook,
+  removeViewerFromMemoryBook,
+} from "../../store/memoryBooksAsyncActions";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 function MemoriesSidebar({ viewers, memoryBookId }) {
   const dispatchRedux = useDispatch();
@@ -16,31 +19,18 @@ function MemoriesSidebar({ viewers, memoryBookId }) {
     if (!nameRef.current.value) {
       return;
     }
-    try {
-      const response = await axios.post(
-        `/memoryBooks/${memoryBookId}/viewers`,
-        {
-          emailOrUsername: nameRef.current.value,
-        },
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      const newViewer = {
-        _id: response.data.user._id,
-        fullName: response.data.user.fullName,
-        email: response.data.user.email,
-        username: response.data.user.username,
-      };
-      dispatchRedux(
-        memoryBooksActions.addViewer({ ...newViewer, memoryBookId })
-      );
-    } catch (e) {
-      setAddViewerError(e.response.data.error);
+    const response = await dispatchRedux(
+      addViewerToMemoryBook(token, memoryBookId, nameRef.current.value)
+    );
+    if (response.error) {
+      setAddViewerError(response.error);
     }
   };
+
+  const deleteHandler = (viewerId) => (e) => {
+    dispatchRedux(removeViewerFromMemoryBook(token, memoryBookId, viewerId));
+  };
+
   return (
     <div>
       <h4>Viewers</h4>
@@ -52,7 +42,17 @@ function MemoriesSidebar({ viewers, memoryBookId }) {
       </form>
       {addViewerError && <p className={styles.error}>{addViewerError}</p>}
       {viewers.length !== 0
-        ? viewers.map((viewer) => <p key={viewer._id}>{viewer.username}</p>)
+        ? viewers.map((viewer) => (
+            <div key={viewer._id} className={styles.viewerDiv}>
+              <p>{viewer.username}</p>
+              <div
+                className={styles.deleteDiv}
+                onClick={deleteHandler(viewer._id)}
+              >
+                <DeleteForeverIcon />
+              </div>
+            </div>
+          ))
         : "No viewers"}
     </div>
   );
