@@ -103,6 +103,7 @@ const removeViewer = async (req, res) => {
   const { memoryBookId, viewerId } = req.params;
   try {
     const foundMemoryBook = await MemoryBook.findById(memoryBookId);
+    const foundUser = await User.findById(viewerId);
     if (!foundMemoryBook) {
       throw new Error("Memory book not found");
     }
@@ -112,6 +113,10 @@ const removeViewer = async (req, res) => {
     foundMemoryBook.viewers = foundMemoryBook.viewers.filter(
       (viewer) => viewer.toString() !== viewerId.toString()
     );
+    foundUser.sharedMemoryBooks = foundUser.sharedMemoryBooks.filter(
+      (smb) => smb.toString() !== memoryBookId.toString()
+    );
+    await foundUser.save();
     await foundMemoryBook.save();
 
     res.status(200).json({ success: "Succesfully deleted user from viewers" });
