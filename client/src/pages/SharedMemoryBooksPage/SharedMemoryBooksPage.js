@@ -5,6 +5,7 @@ import styles from "./SharedMemoryBooksPage.module.css";
 import ImageIcon from "@material-ui/icons/Image";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
 import { useHistory } from "react-router-dom";
+import Empty from "../../components/Empty/Empty";
 
 let isInitial = true;
 
@@ -49,8 +50,10 @@ function SharedMemoryBooksPage() {
         <p className={styles.error}>{loadingSharedMemoryBooksError}</p>
       )}
       {isLoading && <p className={styles.loading}>Loading...</p>}
-
-      {sharedMemoryBooks &&
+      {!(sharedMemoryBooks.length > 0) && !isLoading && (
+        <Empty>No Memory Books</Empty>
+      )}
+      {sharedMemoryBooks.length > 0 &&
         sharedMemoryBooks.map((memBook) => (
           <MemoryBookCard
             onMemoryBookClick={sharedMemoryBookClickHandler(memBook.id)}

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import FormTogglerButton from "../../components/FormTogglerButton/FormTogglerButton";
 import Memories from "../../components/Memories/Memories";
 import MemoriesSidebar from "../../components/MemoriesSidebar/MemoriesSidebar";
+import Empty from "../../components/Empty/Empty";
 
 function MemoriesPage() {
   const { memoryBookId } = useParams();
@@ -78,9 +79,12 @@ function MemoriesPage() {
       />
       {memoriesError && <p className={styles.error}>{memoriesError}</p>}
       {isLoading && <p className={styles.loading}>Loading...</p>}
+      {!(memories.length > 0) && !isLoading && (
+        <Empty>No Memories in this memory book</Empty>
+      )}
       <div className={styles.container}>
         <div className={styles.content}>
-          {memories && <Memories memories={memories} />}
+          {memories.length > 0 && <Memories memories={memories} />}
         </div>
         <div className={styles.sidebar}>
           <MemoriesSidebar viewers={viewers} memoryBookId={memoryBookId} />

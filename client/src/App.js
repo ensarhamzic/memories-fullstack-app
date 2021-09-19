@@ -5,11 +5,11 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MemoryBooksPage from "./pages/MemoryBooksPage/MemoryBooksPage";
 import MemoriesPage from "./pages/MemoriesPage/MemoriesPage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { verifyTokenOnRefresh } from "./store/userAsyncActions";
-import { useDispatch } from "react-redux";
 import SharedMemoryBooksPage from "./pages/SharedMemoryBooksPage/SharedMemoryBooksPage";
 import SharedMemoriesPage from "./pages/SharedMemoriesPage/SharedMemoriesPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 function App() {
   const dispatchRedux = useDispatch();
@@ -45,6 +45,9 @@ function App() {
         </Route>
         <Route path="/shared-memory-books/:memoryBookId/memories">
           {isAuth ? <SharedMemoriesPage /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="*">
+          <NotFoundPage />
         </Route>
       </Switch>
     </div>

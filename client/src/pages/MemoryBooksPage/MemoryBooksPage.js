@@ -7,6 +7,7 @@ import { fetchMemoryBooks } from "../../store/memoryBooksAsyncActions";
 import MemoryBookCard from "../../components/MemoryBookCard/MemoryBookCard";
 import FormTogglerButton from "../../components/FormTogglerButton/FormTogglerButton";
 import GroupIcon from "@material-ui/icons/Group";
+import Empty from "../../components/Empty/Empty";
 
 let isInitial = true;
 
@@ -72,7 +73,10 @@ function MemoryBooksPage() {
 
       {isLoading && <p className={styles.loading}>Loading...</p>}
 
-      {memoryBooks &&
+      {!(memoryBooks.length > 0) && !isLoading && (
+        <Empty>No Memory Books</Empty>
+      )}
+      {memoryBooks.length > 0 &&
         memoryBooks.map((memBook) => (
           <MemoryBookCard
             onMemoryBookClick={memoryBookClickHandler(memBook.id)}

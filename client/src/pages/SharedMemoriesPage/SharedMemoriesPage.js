@@ -4,6 +4,7 @@ import Memories from "../../components/Memories/Memories";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Empty from "../../components/Empty/Empty";
 
 function SharedMemoriesPage() {
   const token = useSelector((state) => state.user.token);
@@ -36,8 +37,11 @@ function SharedMemoriesPage() {
     <div>
       {memoriesError && <p className={styles.error}>{memoriesError}</p>}
       {isLoading && <p className={styles.loading}>Loading...</p>}
+      {!(memories.length > 0) && !isLoading && (
+        <Empty>No Memories in this memory book</Empty>
+      )}
       <div className={styles.memoriesDiv}>
-        {memories && (
+        {memories.length > 0 && (
           <Memories className={styles.memories} memories={memories} />
         )}
       </div>
